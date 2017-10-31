@@ -475,11 +475,13 @@ class Pest
      * @param array $headers
      * @return string
      */
-    public function delete($url, $headers=array())
+    public function delete($url, $data, $headers=array())
     {
         $curl_opts = $this->curl_opts;
         $curl_opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
+        $headers[] = 'Content-Length: ' . strlen($data);
         $curl_opts[CURLOPT_HTTPHEADER] = $this->prepHeaders($headers);
+        $curl_opts[CURLOPT_POSTFIELDS] = $data;
 
         $curl = $this->prepRequest($curl_opts, $url);
         $body = $this->doRequest($curl);
